@@ -31,4 +31,27 @@
  */
 export function sabziMandiBill(shoppingList, priceList) {
   // Your code here
+  if (!Array.isArray(shoppingList) || typeof priceList !== 'object' || priceList === null) {
+    throw new Error('Invalid input: shoppingList should be an array and priceList should be an object');
+  }
+
+  let totalBill = 0;
+  const items = [];
+
+  for (const item of shoppingList) {
+    if (!priceList.hasOwnProperty(item.name)) {
+      continue;
+    }
+
+    const price = priceList[item.name];
+    if (price > 80) {
+      continue;
+    }
+
+    const cost = price * item.qty;
+    items.push({ name: item.name, qty: item.qty, cost });
+    totalBill += cost;
+  }
+
+  return { items, totalBill };
 }
